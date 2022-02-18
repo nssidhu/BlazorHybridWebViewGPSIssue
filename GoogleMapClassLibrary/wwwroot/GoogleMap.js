@@ -183,6 +183,7 @@ export async function initGoogleMap(mapdivElement, blazorPageRef, errorDisplayEl
 
                 navigator.geolocation.getCurrentPosition(success, error, geoOptions);
 
+              
                 if (positionWatchIdNew == -1)
                     positionWatchIdNew = navigator.geolocation.watchPosition(showPosition, showError, geoOptions);
 

@@ -50,11 +50,8 @@ namespace GoogleMapClassLibrary
 
                 BlazorPageRef = DotNetObjectReference.Create(this);
 
-                //ObjectReference = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "/js/app.js");
-                //ObjectReference = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "/js/GoogleMap.js");
-                //ObjectReference = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/GetinLineClassLib/exampleJsInterop.js");
                 ObjectReference = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/GoogleMapClassLibrary/GoogleMap.js");
-                // await JsObjectReference.InvokeVoidAsync("loadScript", "https://maps.googleapis.com/maps/api/js?key=AIzaSyC8uZQso05nCFFrLMAMjNIqvJeykBZoaYM&libraries=geometry");
+               
 
                 await ObjectReference.InvokeVoidAsync("initGoogleMap", "GoogleMapDiv", BlazorPageRef, "GoogleMapErrorDiv");
             }
