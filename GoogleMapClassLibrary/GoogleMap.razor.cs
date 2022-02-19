@@ -168,7 +168,7 @@ namespace GoogleMapClassLibrary
             {
                 erMessage += "Location is Not Enabled on this Device";
                 StateHasChanged();
-                AppInfo.ShowSettingsUI();
+                //AppInfo.ShowSettingsUI();
                 //GetLocationAsync();
                 // Handle not enabled on device exception
 
