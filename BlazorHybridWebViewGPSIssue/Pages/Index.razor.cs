@@ -23,7 +23,7 @@ namespace BlazorHybridWebViewGPSIssue.Pages
             if(firstRender)
             {
                
-                await GetLocation();
+               // await GetLocation();
             }
             await base.OnAfterRenderAsync(firstRender);
             return;
