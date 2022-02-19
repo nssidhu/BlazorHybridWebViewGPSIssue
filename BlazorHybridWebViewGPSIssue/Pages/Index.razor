@@ -8,15 +8,8 @@ Welcome to your new app.
 
 <span>@erMessage</span>
 
-@if (GetingLocation)
-{
-    <div>
-     <div class="spinner-border text-danger"></div>
-        Geting Your Location ...
-    </div>
-    
-}
- <GoogleMapClassLibrary.GoogleMap @ref="MapRef" >
+
+ <GoogleMapClassLibrary.GoogleMap @ref="MapRef" LocationUpdatedEvent="GPSLocationRecieved" >
  
 </GoogleMapClassLibrary.GoogleMap>  
 

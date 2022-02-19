@@ -7,6 +7,15 @@
 
 @*<div id="GoogleMapErrorDiv">@googleMapMessage</div>*@
 
+@if (GetingLocation)
+{
+    <div>
+     <div class="spinner-border text-danger"></div>
+        Geting Your Location ...
+    </div>
+    
+}
+
 @if (!string.IsNullOrEmpty(googleMapMessage))
 {
     <div id="LocationErrorText" class="alert alert-danger" role="alert">@googleMapMessage</div>
