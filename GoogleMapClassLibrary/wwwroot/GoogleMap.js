@@ -103,7 +103,7 @@ export function loadScript(url) {
     })
 }
 
-export async function initGoogleMap(mapdivElement, blazorPageRef, errorDisplayElementID) {
+export async function initGoogleMap(mapdivElement, blazorPageRef, errorDisplayElementID,googleAPIKey) {
     'use strict';
 
     console.log("JsvaScript:initGoogleMap executed");
@@ -113,7 +113,7 @@ export async function initGoogleMap(mapdivElement, blazorPageRef, errorDisplayEl
     try {
 
            //loadscript has logic to prevent duplicate loads
-            await loadScript('https://maps.googleapis.com/maps/api/js?key=&libraries=geometry').then(() => {
+        await loadScript('https://maps.googleapis.com/maps/api/js?key=' + googleAPIKey + '&libraries=geometry').then(() => {
                 console.log('Loadded Google Map Script File');
 
                 var latlng = new google.maps.LatLng(40.716948, -74.003563);

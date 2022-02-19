@@ -13,13 +13,17 @@
 }
 @if(ShowMap)
 {
+   
+         @* <div id="GoogleMapDiv" style="max-height:@MapHeight;max-width:@Mapwidth;"></div>*@
+    <div id="GoogleMapDiv" style="height:250px;max-height:500px;width:100%;" ></div>
     
-   @* <div id="GoogleMapDiv" style="max-height:@MapHeight;max-width:@Mapwidth;"></div>*@
-    <div id="GoogleMapDiv" style="height:250px;max-height:500px;width:100%;"></div>
+  
 }
 else
 {
-    <div id="GoogleMapDiv"> </div>
+    
+    <div id="GoogleMapDiv" > </div>
+   
 }
 
 

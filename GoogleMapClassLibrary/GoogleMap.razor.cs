@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;
 using Microsoft.JSInterop.Implementation;
 using System;
@@ -13,6 +14,7 @@ namespace GoogleMapClassLibrary
         [Inject]
         public IJSRuntime JSRuntime { get; set; }
 
+      
 
         [Parameter]
         public EventCallback<MapLocation> LocationUpdatedEvent { get; set; }
@@ -51,9 +53,11 @@ namespace GoogleMapClassLibrary
                 BlazorPageRef = DotNetObjectReference.Create(this);
 
                 ObjectReference = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/GoogleMapClassLibrary/GoogleMap.js");
-               
+                              
+              
+               var  googleAPI = "AIzaSyC8uZQso05nCFFrLMAMjNIqvJeykBZoaYM";
 
-                await ObjectReference.InvokeVoidAsync("initGoogleMap", "GoogleMapDiv", BlazorPageRef, "GoogleMapErrorDiv");
+                await ObjectReference.InvokeVoidAsync("initGoogleMap", "GoogleMapDiv", BlazorPageRef, "GoogleMapErrorDiv", googleAPI);
             }
         }
 
@@ -64,6 +68,15 @@ namespace GoogleMapClassLibrary
             //StateHasChanged();
         }
 
+        public async Task ShowCurrentPosition(double latitude, double longitude)
+        {
+            var pos = new position()
+            {
+                coords = new coords() { latitude = latitude.ToString(), longitude = longitude.ToString() }
+            };
+
+            await ObjectReference.InvokeVoidAsync("showPosition", pos);
+        }
         public async Task RenderLocationOnMap(List<DTO_OrgLocation> Locations)
         {
             try
@@ -99,14 +112,31 @@ namespace GoogleMapClassLibrary
             Console.Error.WriteLine("Recieved Error Message from GoogleMap JavaScript SDK : " + ErrorMessage);
             StateHasChanged();
         }
+
         public ValueTask DisposeAsync()
         {
-            ObjectReference.InvokeVoidAsync("ClearVariables");
+            if(ObjectReference != null)
+            {
+                ObjectReference.InvokeVoidAsync("ClearVariables");
+            }
+           
 
             Console.WriteLine("GoogleMap blazor Page disposed");
             return ValueTask.CompletedTask;
         }
 
        
+    }
+
+
+    public class position
+    {
+        public coords coords { get; set; }
+    }
+
+    public class coords
+    {
+        public string latitude { get; set; }
+        public string longitude { get; set; }
     }
 }

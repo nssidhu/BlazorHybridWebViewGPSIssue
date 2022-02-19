@@ -6,6 +6,19 @@ Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
-<GoogleMapClassLibrary.GoogleMap>
+<span>@erMessage</span>
 
-</GoogleMapClassLibrary.GoogleMap>
+@if (GetingLocation)
+{
+    <div>
+     <div class="spinner-border text-danger"></div>
+        Geting Your Location ...
+    </div>
+    
+}
+ <GoogleMapClassLibrary.GoogleMap @ref="MapRef" >
+ 
+</GoogleMapClassLibrary.GoogleMap>  
+
+
+
