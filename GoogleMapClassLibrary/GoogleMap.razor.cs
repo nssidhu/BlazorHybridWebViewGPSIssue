@@ -100,16 +100,24 @@ namespace GoogleMapClassLibrary
         }
 
         [JSInvokable]
-        public void LocationUpdated(double latitude, double longitude)
+        public void LocationUpdated(string latitude, string longitude)
         {
-            Console.WriteLine($"Blazor-GoogleMap, Location Update Recieved : Latitude: {latitude} and Longitude : {longitude}");
-            Latitude = latitude;
-            Longitude = longitude;
-            StateHasChanged();
-            var lc = new MapLocation();
-            lc.Latitude = latitude;
-            lc.Longitude = longitude;
-            LocationUpdatedEvent.InvokeAsync(lc);
+            try
+            {
+                Console.WriteLine($"Blazor-GoogleMap, Location Update Recieved : Latitude: {latitude} and Longitude : {longitude}");
+                Latitude = double.Parse(latitude);
+                Longitude = double.Parse(longitude);
+                StateHasChanged();
+                var lc = new MapLocation();
+                lc.Latitude = Latitude;
+                lc.Longitude = Longitude;
+                LocationUpdatedEvent.InvokeAsync(lc);
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine("error in LocationUpdate which recieves Location fro JavaScript" + e.Message);
+            }
+           
 
         }
 

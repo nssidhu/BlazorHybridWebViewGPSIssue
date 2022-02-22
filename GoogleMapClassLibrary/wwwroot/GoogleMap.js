@@ -19,8 +19,6 @@ export let circles = [];
 export let CodeRunning = false;
 
 
-
-
 export let  Status = {
     _mapInitialized: false,
     edition: 1
@@ -34,11 +32,6 @@ Object.defineProperty(Status, "mapInitialized", {
     set: function (newValue) {
         this._mapInitialized = newValue;
 
-        //if (!releaseMode)
-        //console.log("InitilizedMap Value Changed to " + newValue);
-        //this.edition = newValue - 2004;
-        //alert(this._year);
-        //alert(this.edition);
     }
 });
 
@@ -106,7 +99,7 @@ export function loadScript(url) {
 export async function initGoogleMap(mapdivElement, blazorPageRef, errorDisplayElementID,googleAPIKey) {
     'use strict';
 
-    console.log("JsvaScript:initGoogleMap executed");
+    console.log("JavaScript:initGoogleMap executed");
     blazorPageReference = blazorPageRef;
     mapErrorDisplayElementID = errorDisplayElementID;
 
@@ -114,7 +107,7 @@ export async function initGoogleMap(mapdivElement, blazorPageRef, errorDisplayEl
 
            //loadscript has logic to prevent duplicate loads
         await loadScript('https://maps.googleapis.com/maps/api/js?key=' + googleAPIKey + '&libraries=geometry').then(() => {
-                console.log('Loadded Google Map Script File');
+                console.log('Loaded Google Map Script File');
 
                 var latlng = new google.maps.LatLng(40.716948, -74.003563);
                 var options = {
@@ -170,7 +163,7 @@ export async function initGoogleMap(mapdivElement, blazorPageRef, errorDisplayEl
 
                
 
-            navigator.geolocation.getCurrentPosition(showPosition, showError, geoOptions);
+            //navigator.geolocation.getCurrentPosition(showPosition, showError, geoOptions);
 
               
                 if (positionWatchIdNew == -1)
@@ -189,7 +182,6 @@ export async function initGoogleMap(mapdivElement, blazorPageRef, errorDisplayEl
 
 }
 
-
 export function formatAMPM(date) {
     var hours = date.getHours();
     var minutes = date.getMinutes();
@@ -204,7 +196,7 @@ export function formatAMPM(date) {
 export function showError(error) {
     'use strict';
 
-    console.log("Geolocation API isn't supported.");
+    console.log("Geolocation API isn't supported." + error);
     var element = document.getElementById('LocationErrorText');
     var erMsg = "";
     switch (error.code) {
@@ -233,14 +225,14 @@ export function showError(error) {
     blazorPageReference.invokeMethodAsync('MapLocationError', erMsg);
 }
 
-
-
-
 export async function showPosition(position) {
     'use strict';
 
     try {
 
+       
+        console.log(JSON.stringify(position, null, 4));
+      
         console.log(" showPosition :- Latitude: " + position.coords.latitude + ", Longitude: " + position.coords.longitude);
         var lat = position.coords.latitude;
         var lon = position.coords.longitude;
@@ -315,28 +307,9 @@ export async function showPosition(position) {
                     currentPosMarkerNew.info.open(mapNew, currentPosMarkerNew);
                 });
 
-                //This works
-                //var latlng = currentPosMarkerNew.get('position');
-                //var latlng = currentPosMarkerNew.getPosition();
-
-       // mapNew.setCenter(currentPosMarkerNew.getPosition());
-        displayMarkersOnGoogleMap(variableLocations);
-                //mapNew.setZoom(16);
-               // mapNew.setCenter(currentLatLong);
-
-             
-       
-                //window.setTimeout(() => {
-                //    if (UpdateBound == false)
-                //        return;
-                //    else
-                //        UpdateBound = false;
-                //             mapNew.fitBounds(bounds); //auto-zoom
-                //             mapNew.panToBounds(bounds); //auto-cente
-                //             mapNew.setZoom(16);
-                //            }, 3000);
-
-              
+               
+                displayMarkersOnGoogleMap(variableLocations);
+               
                 console.log("First time user Location Marked(showPosition)");
 
  
@@ -349,7 +322,6 @@ export async function showPosition(position) {
         oneTimeForceLoad = false;
     }
 }
-
 
 export async function displayMarkersOnGoogleMap(locations) {
     'use strict';
@@ -432,10 +404,7 @@ export async function displayMarkersOnGoogleMap(locations) {
 
                     console.warn("Business Marker clicked");
 
-                    //We are recreating bounds , becuase we only want to show two points in focus
-                    //one users current location and the business location that he has selected
-                    //We are not deleting the existing/already plotted markers on the map, just recreating bounds.
-                    //create empty LatLngBounds object
+                  
                     bounds = new google.maps.LatLngBounds();
                     bounds.extend(marker.getPosition());
                     bounds.extend(currentPosMarkerNew.getPosition());
@@ -449,10 +418,7 @@ export async function displayMarkersOnGoogleMap(locations) {
                         marker.getPosition()
                     );
 
-                    //console.warn("distance in Meters " + distanceInMeters);
-                    //console.warn("function Output 1" + await GetMiles(distanceInMeters));
-                    //console.warn("function Output 2" + await  GetMiles(distanceInMeters));
-                  
+                                  
 
                     for (var i = 0; i < circles.length; i++) {
                         circles[i].setMap(null);
@@ -471,39 +437,9 @@ export async function displayMarkersOnGoogleMap(locations) {
                       
                     }
                     content = content + "<br/><span style='font-weight: bold;'> Time : </span> " + formatAMPM( new Date(marker.OpenTime)) + " To " + formatAMPM(new Date(marker.CloseTime));
-                    //content = content + "</br><span style='font-weight: bold;'> Closing Time : </span> " + locations[i].locationStopTime;
-                    //content = content + "</br><span style='font-weight: bold;'> Open time : </span> " + locationStartTime.toTimeString()
-                    //content = content + "</br><span style='font-weight: bold;'> Closing Time : </span> " + locationStopTime.toTimeString();
                     content = content + "<br/>" + "<span style='font-weight: bold;'>Distance from your Location : </span>" +  GetMiles(distanceInMeters);
                     content = content + "<br/>" + "<span style='font-weight: bold;'>Number of People in Line : </span> " + marker.NumberOfPeopleInLine;
-                  /*  content = content + "<br/>" + "<span style='font-weight: bold;'>Estimated Wait Time : </span> " + marker.EstimatedWaitTime + " Minutes ";*/
-
-
-                    //if (marker.OpenStatus != "CLOSE") {
-
-                    //    if (distanceInMeters <= marker.RangeLimitInMeters) {
-                    //        content = content + "<br/><button class='btn btn-success mt-2' onclick=GetInLine('" + marker.LocationGuid + "')>GetInLine Here</button>"
-                    //        if (distanceInMeters < 100)
-                    //            currentPosMarkerNew.setVisible(false);
-                    //        else
-                    //            currentPosMarkerNew.setVisible(true);
-
-                    //        setTimeout(async () => {
-                    //            var circle = await drawCircle(mapNew, marker.getPosition(), marker.RangeLimitInMeters, /* light green color*/ '#00ead3', /* boundry/stroke color */ '#00ead3');
-                    //            circles.push(circle);
-                    //        }, 100);
-                    //    }
-                    //    else {
-                    //        setTimeout(async () => {
-                    //            var circle = await drawCircle(mapNew, marker.getPosition(), marker.RangeLimitInMeters, /*Red color */ '#AA0000', /* boundry/stroke color */ "#FF0000");
-                    //            circles.push(circle);
-                    //        }, 100);
-                    //        currentPosMarkerNew.setVisible(true);
-                    //        content = content + "<br/>" + "<span style='font-weight: bold;'>Range: </span>You Must be within " + GetMiles(marker.RangeLimitInMeters) + "  to get Token";
-                    //        content = content + "<br/> <span style='font-weight: bold;' class='badge badge-danger'>OUT OF RANGE </span>";
-                    //    }
-
-                    //}
+                               
 
                     infowindow.marker = marker;
                     infowindow.setContent(content);
@@ -558,6 +494,7 @@ export async function drawCircle(map, latlong, radiusInMeters, fillcolor, stroke
         console.groupEnd(consoleGroupName);
     }
 }
+
 export function GetMiles(meters) {
     'use strict';
 
@@ -616,19 +553,6 @@ export async function TopCenterControl(controlDiv, mapNew, text) {
             }
            
 
-            //var isInsideBound = mapNew.getBounds().contains(currentPosMarkerNew.getPosition())
-            //if (isInsideBound == false) {
-            //   // setCenter: latlong,
-            //    mapNew.setCenter(currentPosMarkerNew.getPosition());
-              
-            //    //var bounds = mapNew.getBounds();
-            //    //var latlng = currentPosMarkerNew.getPosition();
-            //    //bounds.extend(latlng);
-            //    //mapNew.fitBounds(bounds); //auto-zoom
-            //    //mapNew.panToBounds(bounds); //auto-cente
-            //    //mapNew.setZoom(16);
-            //}
-           
             console.log("Show current Location Button clicked");
         } catch (e) {
             console.log("Error in the click event of Show current location");
