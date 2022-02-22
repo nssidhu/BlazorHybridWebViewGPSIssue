@@ -18,7 +18,7 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 			});
 
-		builder.Services.AddBlazorWebView();
+		
 
 		//This is need for enabling webView GPD & Camera Permission.
 		//If you are not using WebView or using webview but don't need acces to GPS & Camera, this may not be needed at all
@@ -44,6 +44,8 @@ public static class MauiProgram
 			});
 
 		});
+
+		builder.Services.AddBlazorWebView();
 
 		builder.Services.AddSingleton<WeatherForecastService>();
 

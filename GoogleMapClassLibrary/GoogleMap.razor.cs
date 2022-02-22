@@ -64,7 +64,7 @@ namespace GoogleMapClassLibrary
 
                 await ObjectReference.InvokeVoidAsync("initGoogleMap", "GoogleMapDiv", BlazorPageRef, "GoogleMapErrorDiv", googleAPI);
 
-                await GetLocation();
+               // await GetLocation();
             }
         }
 
@@ -117,9 +117,9 @@ namespace GoogleMapClassLibrary
             {
                 Console.Error.WriteLine("error in LocationUpdate which recieves Location fro JavaScript" + e.Message);
             }
-           
-
+   
         }
+
 
         [JSInvokable("MapLocationError")]
         public void MapLocationError(string ErrorMessage)
